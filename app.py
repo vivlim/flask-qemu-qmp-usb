@@ -54,18 +54,6 @@ def rm_usb_device(device):
 app = Flask(__name__)
 
 
-@app.route('/add/<device_id>/<name>')
-def add_device_route(device_id, name):
-    device = ("0x" + device_id.split(':')[0], "0x" + device_id.split(':')[1], name)
-    return str(add_usb_device(device))
-
-
-@app.route('/del/<device_id>/<name>')
-def del_device_route(device_id, name):
-    device = ("0x" + device_id.split(':')[0], "0x" + device_id.split(':')[1], name)
-    return str(rm_usb_device(device))
-
-
 @app.route('/')
 def home():
     devices = get_usb_devices()
@@ -75,3 +63,15 @@ def home():
         page.append('<tr><td>{0}</td><td><a href="/add/{1}/{2}">Add</a></td><td><a href="/del/{1}/{2}">Remove</a></td></tr>'.format(device[1], device[0], device[1].replace(' ', '').replace(',', '')))
     page.append('</table>')
     return '\n'.join(page)
+
+
+@app.route('/add/<device_id>/<name>')
+def add_device_route(device_id, name):
+    device = ("0x" + device_id.split(':')[0], "0x" + device_id.split(':')[1], name)
+    return str(add_usb_device(device)) + home()
+
+
+@app.route('/del/<device_id>/<name>')
+def del_device_route(device_id, name):
+    device = ("0x" + device_id.split(':')[0], "0x" + device_id.split(':')[1], name)
+    return str(rm_usb_device(device)) + '<hr/>' + home()
