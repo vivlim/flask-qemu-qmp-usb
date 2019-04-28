@@ -72,6 +72,6 @@ def home():
     page = []
     page.append('<table><tr><th>device</th><th></th><th></th></tr>')
     for device in devices:
-        page.append('<tr><td>{0}</td><td><a href="/add/{1}/{2}">Add</a></td><td><a href="/del/{1}/{2}">Remove</a></td></tr>'.format(device[1], device[0], device[1].replace(' ', '_')))
+        page.append('<tr><td>{0}</td><td><a href="/add/{1}/{2}">Add</a></td><td><a href="/del/{1}/{2}">Remove</a></td></tr>'.format(device[1], device[0], device[1].replace(' ', '').replace(',', '')))
     page.append('</table>')
     return '\n'.join(page)
